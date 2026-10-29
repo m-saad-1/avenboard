@@ -1,0 +1,26 @@
+# How CI deploys every copy of this repo. Names render from the copy's own repo and org.
+version: 1
+create_if_missing: true
+apps:
+  - name: "${{ dodil.repo }}"
+    image: "{registry}/{org}/{repo}:{sha}"
+    port: 8080
+    resources: { tier: small }
+    scaling: { max_replicas: 2 }
+    # The gateway signs people in through the pool and passes who they are to the app.
+    # public_invoke lets Claude/ChatGPT discover the sign-in metadata; the app itself
+    # refuses every route without a signed-in person (except /healthz and the metadata).
+    user_pool: "${{ dodil.repo }}-users"
+    public_invoke: true
+    health: { path: /healthz }
+    env:
+      BUCKET: "${{ dodil.repo }}-data"
+      PG_HOST: pg.uk-lon-1.dodil.io
+      DODIL_USER_POOL: "${{ dodil.org }}/${{ dodil.repo }}-users"
+      MODELS_BASE: https://api.dodil.io/v1
+      CHAT_MODEL: kimi-k2.6
+      DODIL_SERVICE_ACCOUNT_ID: "${{ secrets.DODIL_SERVICE_ACCOUNT_ID }}"
+      DODIL_SERVICE_ACCOUNT_SECRET: "${{ secrets.DODIL_SERVICE_ACCOUNT_SECRET }}"
+when:
+  branches: [main]
+  require_checks: all

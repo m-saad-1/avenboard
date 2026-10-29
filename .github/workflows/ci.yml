@@ -1,0 +1,33 @@
+# Dodil Git runs this on every push (.github is the workflow format, not GitHub).
+# The image goes to THIS repo's org, so every remix builds into its own org.
+name: ci
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r app/requirements.txt pytest
+      - run: cd app && python -m pytest -q ../tests
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: image name
+        id: img
+        run: echo "ref=$DODIL_REGISTRY_URL/${DODIL_GIT_ORG:?}/${DODIL_GIT_REPO_NAME:?}:$DODIL_GIT_SHA" >> "$GITHUB_OUTPUT"
+        env:
+          DODIL_REGISTRY_URL: ${{ secrets.DODIL_REGISTRY_URL }}
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.DODIL_REGISTRY_URL }}
+          username: ci
+          password: ${{ secrets.DODIL_REGISTRY_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: app
+          push: true
+          tags: ${{ steps.img.outputs.ref }}

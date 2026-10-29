@@ -55,6 +55,21 @@ organization with one command) and have running in minutes. Someone says
 
 ## 3. How to build it
 
+### Fastest start: remix the starter
+
+This repository (https://git.dodil.io/dodil/boards-challenge) is a small,
+working, remixable app with sign-in, DataK3, Dodil Models and MCP already wired,
+in the structure below. Remix it into your org and build your board on top:
+
+```bash
+dodil update                     # CLI 0.1.89 or later
+dodil git remix dodil/boards-challenge --to-org <your-org> --name <your-repo>
+```
+
+Your remix is your entry: make it public and tag it when you're ready (see
+"Publish your entry"). Starting from scratch is fine too, as long as you follow
+the rules.
+
 ### Stack and structure
 
 - **Python** backend, **FastAPI** recommended.
@@ -108,9 +123,11 @@ Then ask your assistant to read these three guides **before writing code**:
 - **Data:** DataK3 speaks the Postgres wire protocol at `pg.uk-lon-1.dodil.io:5432`
   (`sslmode=require`). The database name is your bucket. Every table needs a
   **primary key**, and you should choose the key yourself (no `SERIAL`).
-- **AI:** Dodil Models is OpenAI-compatible at `https://api.dodil.io/v1`. Use
-  the normal OpenAI Python SDK with `base_url` set to that, and a service-account
-  token as the key. Chat model `kimi-k2.6`; embeddings `jina-embeddings-v4`.
+- **AI:** Dodil Models is OpenAI-compatible at `https://api.dodil.io/v1`
+  (`POST /chat/completions`, `/embeddings`) with a service-account token as the
+  bearer. Chat model `kimi-k2.6`; embeddings `jina-embeddings-v4`. The gateway
+  wraps the OpenAI body as `{"status": ..., "data": {...}}`, so unwrap `data`
+  before reading `choices` (the starter's `infrastructure/dodil.py` shows how).
 - **Who is signed in:** with a user pool attached, the Dodil gateway signs the
   person in and passes their identity to your app. **Don't write login code.**
   See `dodil://build`.
@@ -143,10 +160,12 @@ dodil git remix plan <your-org>/<repo> --to-org <a test org>   # creates nothing
 ### Publish your entry
 
 ```bash
-dodil git repo create team-boards --visibility public
-# push the code, remix.yaml, deploy.yaml and the CI workflow
-dodil git repo topics team-boards set dodil-challenge,dodil-challenge-boards
-dodil git remix check <your-org>/team-boards
+# Started from the starter? Your repo already exists in your org:
+dodil git repo visibility <your-repo> public
+# Started from scratch? Create it public instead, then push:
+#   dodil git repo create <your-repo> --visibility public
+dodil git repo topics <your-repo> set dodil-challenge,dodil-challenge-boards
+dodil git remix check <your-org>/<your-repo>
 ```
 
 ### Become a Dodil partner (recommended, do it at the start)
