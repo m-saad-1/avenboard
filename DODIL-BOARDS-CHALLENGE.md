@@ -203,14 +203,16 @@ enter the contest.
 
 ## 4. How to enter
 
-Submit on Freelancer:
+Submit on Freelancer. **The only requirement is the link to your public repo on
+Dodil Git.** We remix it ourselves to judge it.
 
-- [ ] your repo link (git.dodil.io/…)
-- [ ] the live link, with test logins for an **owner** and a **member**
-- [ ] your Dodil organization name
-- [ ] a **3-minute screen recording** of it working from Claude or ChatGPT
-- [ ] **5 honest lines** on what was hard
+- [ ] **required:** your public repo link (`https://git.dodil.io/<your-org>/<your-repo>`)
+- [ ] optional: the live link, with test logins for an owner and a member
+- [ ] optional: a short screen recording of it working from Claude or ChatGPT
+- [ ] optional: 5 honest lines on what was hard (we read every one)
 - [ ] optional: say if you applied to the partner programme
+
+Images, mockups and documents without a repo link can't be judged.
 
 ## 5. How we judge
 
@@ -234,4 +236,4 @@ you, and the winner gets a paid follow-up project to harden it. Strong entrants
 are invited to the Dodil partner programme.
 
 Questions: ask on the contest's Freelancer page. Stuck on Dodil itself? Put it
-in your 5 honest lines. That feedback is part of why we run this.
+in your honest notes. That feedback is part of why we run this.
