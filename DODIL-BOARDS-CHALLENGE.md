@@ -5,7 +5,7 @@
 > *"Read DODIL-BOARDS-CHALLENGE.md and help me build this, step by step."*
 > It is written for you **and** for your assistant.
 
-Prize: **$150** to the winner, plus a paid follow-up project. The winning board
+Prize: **$100** to the winner, plus a paid follow-up project. The winning board
 becomes the official Dodil template, credited to you.
 
 ---

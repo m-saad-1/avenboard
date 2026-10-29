@@ -3,7 +3,7 @@
 Build **the Trello replacement** on Dodil: a team task board anyone can remix
 into their own Dodil organization and have running in minutes.
 
-**Prize:** $150 to the winner, plus a paid follow-up project. The winning board
+**Prize:** $100 to the winner, plus a paid follow-up project. The winning board
 becomes the official Dodil template, credited to its builder.
 Contest: https://www.freelancer.com/contest/contest-build-the-trello-replacement-on-dodil-run-it-from-claude-chatgpt-2799133
 
