@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+﻿import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import {
   LayoutDashboard,
   CheckSquare,
@@ -29,6 +29,7 @@ import { Overview, BoardsView, TasksView, MembersView, SettingsView } from './Wo
 const BoardView = lazy(() => import('./BoardView'))
 const CardDetails = lazy(() => import('./CardDetails'))
 const ActionDialogs = lazy(() => import('./ActionDialogs'))
+const staticDemo = import.meta.env.VITE_STATIC_DEMO === 'true'
 
 function WorkspaceForm({ onCreated, onClose }: { onCreated: (w: Workspace) => void; onClose?: () => void }) {
   const [busy, setBusy] = useState(false),
@@ -89,7 +90,7 @@ function WorkspaceForm({ onCreated, onClose }: { onCreated: (w: Workspace) => vo
         </p>
       )}
       <button className="button primary full" disabled={busy}>
-        {busy ? 'Creating your workspace…' : 'Create workspace'}
+        {busy ? 'Creating your workspaceâ€¦' : 'Create workspace'}
         <ArrowRight size={16} />
       </button>
     </form>
@@ -110,7 +111,7 @@ function WorkspaceForm({ onCreated, onClose }: { onCreated: (w: Workspace) => vo
         <p>Bring your projects, people, and next steps into one thoughtful workspace.</p>
         {form}
       </div>
-      <small>Powered by Dodil · Your data, in your organization.</small>
+      <small>Powered by Dodil Â· Your data, in your organization.</small>
     </main>
   )
 }
@@ -536,11 +537,17 @@ export default function App() {
             </button>
             {profile && (
               <div className="profile-menu">
-                <p>Signed in through Dodil appid</p>
-                <a href="/.dodil/auth/logout">
-                  <LogOut size={15} />
-                  Sign out
-                </a>
+                {staticDemo ? (
+                  <p>Sample account Â· public read-only preview</p>
+                ) : (
+                  <>
+                    <p>Signed in through Dodil appid</p>
+                    <a href="/.dodil/auth/logout">
+                      <LogOut size={15} />
+                      Sign out
+                    </a>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -565,7 +572,7 @@ export default function App() {
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search tasks…"
+                  placeholder="Search tasksâ€¦"
                   aria-label="Search all tasks"
                   onKeyDown={(e) => {
                     if (e.key === 'Escape') setSearch('')
@@ -596,7 +603,9 @@ export default function App() {
           </header>
           {fixture && (
             <div className="fixture-banner">
-              LOCAL QA PREVIEW · isolated in-memory fixtures · not connected to Dodil
+              {staticDemo
+                ? 'PUBLIC SAMPLE DASHBOARD · read-only fixture data · not connected to a live workspace'
+                : 'LOCAL QA PREVIEW · isolated in-memory fixtures · not connected to Dodil'}
             </div>
           )}
           {search.trim() && (
@@ -635,7 +644,7 @@ export default function App() {
                     <span>
                       <strong>{c.title}</strong>
                       <small>
-                        AV-{c.number} · {snapshot.boards.find((b) => b.id === c.board_id)?.title}
+                        AV-{c.number} Â· {snapshot.boards.find((b) => b.id === c.board_id)?.title}
                       </small>
                     </span>
                     <Due value={c.due_date} overdue={c.overdue} />

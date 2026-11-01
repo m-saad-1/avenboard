@@ -10,6 +10,7 @@ __pycache__/
 !.env.example
 node_modules/
 frontend/dist/
+frontend/public/demo/workspace.json
 app/boards/static/
 test-results/
 .coverage
