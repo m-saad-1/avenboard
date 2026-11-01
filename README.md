@@ -6,6 +6,8 @@ A calm workspace for teams to turn plans into progress. Boards, tasks and an aut
 
 ## Preview
 
+**Public static preview:** [m-saad-1.github.io/avenboard](https://m-saad-1.github.io/avenboard/). It presents the interface screenshots; GitHub Pages cannot host the API needed for sign-in and live data.
+
 These are real browser captures of the **labeled local QA fixture**, not a deployed Dodil instance. Fixture accounts are never provisioned or packaged in production.
 
 ![Light overview](docs/screenshots/desktop-light.png)
