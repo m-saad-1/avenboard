@@ -9,10 +9,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install -r app/requirements.txt pytest
-      - run: cd app && python -m pytest -q ../tests
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q -m 'not live'
+      - run: python scripts/export_openapi.py && git diff --exit-code docs/openapi.json
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "24" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements-dev.txt
+      - run: cd frontend && npm ci && npm run generate:types && git diff --exit-code src/api.generated.ts && npm run build
+      - run: cd frontend && npx playwright install --with-deps chromium && npm run test:e2e
   build:
-    needs: test
+    needs: [test, frontend]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +44,7 @@ jobs:
           password: ${{ secrets.DODIL_REGISTRY_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
-          context: app
+          context: .
+          file: app/Dockerfile
           push: true
           tags: ${{ steps.img.outputs.ref }}

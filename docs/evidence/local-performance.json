@@ -1,0 +1,71 @@
+{
+  "environment": "Local loopback Chromium; in-memory QA data; no network or CPU throttling; not deployed performance or Lighthouse",
+  "samples": [
+    {
+      "device": "desktop",
+      "sample": 1,
+      "ttfbMs": 12.199999988079071,
+      "domContentLoadedMs": 214.80000001192093,
+      "lcpMs": 772,
+      "cls": 0.00016516789189091434,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    },
+    {
+      "device": "desktop",
+      "sample": 2,
+      "ttfbMs": 11.799999997019768,
+      "domContentLoadedMs": 235.8999999910593,
+      "lcpMs": 1176,
+      "cls": 0.00011570797502258677,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    },
+    {
+      "device": "desktop",
+      "sample": 3,
+      "ttfbMs": 9.700000002980232,
+      "domContentLoadedMs": 202.79999999701977,
+      "lcpMs": 732,
+      "cls": 0.0001658714242629063,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    },
+    {
+      "device": "mobile",
+      "sample": 1,
+      "ttfbMs": 16.200000002980232,
+      "domContentLoadedMs": 431.6000000089407,
+      "lcpMs": 1388,
+      "cls": 0.018291571606549543,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    },
+    {
+      "device": "mobile",
+      "sample": 2,
+      "ttfbMs": 22.5,
+      "domContentLoadedMs": 253.5,
+      "lcpMs": 836,
+      "cls": 0.01934897052687323,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    },
+    {
+      "device": "mobile",
+      "sample": 3,
+      "ttfbMs": 37.80000001192093,
+      "domContentLoadedMs": 191.09999999403954,
+      "lcpMs": 592,
+      "cls": 0.01808014642344667,
+      "resourceCount": 9,
+      "resourceTransferBytes": 444323,
+      "externalRequests": []
+    }
+  ]
+}

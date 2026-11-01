@@ -1,0 +1,2969 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Avenboard",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/me": {
+      "get": {
+        "summary": "Identity",
+        "operationId": "identity_api_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identity"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspaces": {
+      "get": {
+        "summary": "Workspaces",
+        "operationId": "workspaces_api_workspaces_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Workspace"
+                  },
+                  "type": "array",
+                  "title": "Response Workspaces Api Workspaces Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/commands": {
+      "post": {
+        "summary": "Command",
+        "operationId": "command_api_commands_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateWorkspace"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateWorkspace"
+                  },
+                  {
+                    "$ref": "#/components/schemas/InviteMember"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AcceptInvite"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ReviewInvite"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ManageMember"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateBoard"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateBoard"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BoardLifecycle"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BoardAccess"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateList"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateList"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ListLifecycle"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ReorderLists"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CreateCard"
+                  },
+                  {
+                    "$ref": "#/components/schemas/UpdateCard"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MoveCard"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CardLifecycle"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SaveLabel"
+                  },
+                  {
+                    "$ref": "#/components/schemas/DeleteLabel"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SaveChecklist"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Dependency"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CardLabel"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Favorite"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Preference"
+                  }
+                ],
+                "title": "Body",
+                "discriminator": {
+                  "propertyName": "action",
+                  "mapping": {
+                    "create_workspace": "#/components/schemas/CreateWorkspace",
+                    "update_workspace": "#/components/schemas/UpdateWorkspace",
+                    "invite_member": "#/components/schemas/InviteMember",
+                    "accept_invite": "#/components/schemas/AcceptInvite",
+                    "approve_invite": "#/components/schemas/ReviewInvite",
+                    "revoke_invite": "#/components/schemas/ReviewInvite",
+                    "change_role": "#/components/schemas/ManageMember",
+                    "remove_member": "#/components/schemas/ManageMember",
+                    "transfer_owner": "#/components/schemas/ManageMember",
+                    "create_board": "#/components/schemas/CreateBoard",
+                    "update_board": "#/components/schemas/UpdateBoard",
+                    "archive_board": "#/components/schemas/BoardLifecycle",
+                    "restore_board": "#/components/schemas/BoardLifecycle",
+                    "delete_board": "#/components/schemas/BoardLifecycle",
+                    "board_access": "#/components/schemas/BoardAccess",
+                    "create_list": "#/components/schemas/CreateList",
+                    "update_list": "#/components/schemas/UpdateList",
+                    "archive_list": "#/components/schemas/ListLifecycle",
+                    "restore_list": "#/components/schemas/ListLifecycle",
+                    "reorder_lists": "#/components/schemas/ReorderLists",
+                    "create_card": "#/components/schemas/CreateCard",
+                    "update_card": "#/components/schemas/UpdateCard",
+                    "move_card": "#/components/schemas/MoveCard",
+                    "archive_card": "#/components/schemas/CardLifecycle",
+                    "restore_card": "#/components/schemas/CardLifecycle",
+                    "delete_card": "#/components/schemas/CardLifecycle",
+                    "save_label": "#/components/schemas/SaveLabel",
+                    "delete_label": "#/components/schemas/DeleteLabel",
+                    "save_checklist": "#/components/schemas/SaveChecklist",
+                    "add_dependency": "#/components/schemas/Dependency",
+                    "remove_dependency": "#/components/schemas/Dependency",
+                    "add_label": "#/components/schemas/CardLabel",
+                    "remove_label": "#/components/schemas/CardLabel",
+                    "favorite": "#/components/schemas/Favorite",
+                    "preference": "#/components/schemas/Preference"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspaces/{workspace_id}/snapshot": {
+      "get": {
+        "summary": "Snapshot",
+        "operationId": "snapshot_api_workspaces__workspace_id__snapshot_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workspace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards": {
+      "get": {
+        "summary": "List Boards",
+        "operationId": "list_boards_api_boards_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Workspace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/workspaces/{workspace_id}/activity": {
+      "get": {
+        "summary": "Workspace Activity",
+        "operationId": "workspace_activity_api_workspaces__workspace_id__activity_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workspace Id"
+            }
+          },
+          {
+            "name": "board_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/{board_id}": {
+      "get": {
+        "summary": "Board",
+        "operationId": "board_api_boards__board_id__get",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards": {
+      "get": {
+        "summary": "Cards",
+        "operationId": "cards_api_cards_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Workspace Id"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Query"
+            }
+          },
+          {
+            "name": "assignee_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assignee Id"
+            }
+          },
+          {
+            "name": "label_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Label Id"
+            }
+          },
+          {
+            "name": "list_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "List Id"
+            }
+          },
+          {
+            "name": "due_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Due From"
+            }
+          },
+          {
+            "name": "due_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Due To"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "overdue",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Overdue"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/my-tasks": {
+      "get": {
+        "summary": "Tasks",
+        "operationId": "tasks_api_my_tasks_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Workspace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/overdue": {
+      "get": {
+        "summary": "Overdue",
+        "operationId": "overdue_api_overdue_get",
+        "parameters": [
+          {
+            "name": "workspace_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Workspace Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards/{card_id}/activity": {
+      "get": {
+        "summary": "Activity",
+        "operationId": "activity_api_cards__card_id__activity_get",
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Card Id"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/{board_id}/blockers": {
+      "get": {
+        "summary": "Blockers",
+        "operationId": "blockers_api_boards__board_id__blockers_get",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          },
+          {
+            "name": "card_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Card Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cards/{card_id}/generate-checklist": {
+      "post": {
+        "summary": "Checklist",
+        "operationId": "checklist_api_cards__card_id__generate_checklist_post",
+        "parameters": [
+          {
+            "name": "card_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Card Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/{board_id}/summary": {
+      "post": {
+        "summary": "Summary",
+        "operationId": "summary_api_boards__board_id__summary_post",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/{board_id}/recommendations": {
+      "post": {
+        "summary": "Recommendations",
+        "operationId": "recommendations_api_boards__board_id__recommendations_post",
+        "parameters": [
+          {
+            "name": "board_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Board Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/semantic-search": {
+      "post": {
+        "summary": "Semantic",
+        "operationId": "semantic_api_semantic_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AcceptInvite": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "accept_invite",
+            "title": "Action"
+          },
+          "token": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 20,
+            "title": "Token"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "token"
+        ],
+        "title": "AcceptInvite"
+      },
+      "Activity": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "board_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Board Id"
+          },
+          "card_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Card Id"
+          },
+          "actor_name": {
+            "type": "string",
+            "title": "Actor Name"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "before_json": {
+            "type": "string",
+            "title": "Before Json"
+          },
+          "after_json": {
+            "type": "string",
+            "title": "After Json"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "board_id",
+          "card_id",
+          "actor_name",
+          "action",
+          "before_json",
+          "after_json",
+          "created_at"
+        ],
+        "title": "Activity"
+      },
+      "ActivityPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "ActivityPage"
+      },
+      "Board": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "workspace",
+              "private"
+            ],
+            "title": "Visibility"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "workspace_id",
+          "title",
+          "description",
+          "color",
+          "visibility",
+          "version",
+          "archived",
+          "deleted"
+        ],
+        "title": "Board"
+      },
+      "BoardAccess": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "board_access",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "allow": {
+            "type": "boolean",
+            "title": "Allow"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "expected_version",
+          "user_id",
+          "allow"
+        ],
+        "title": "BoardAccess"
+      },
+      "BoardLifecycle": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "archive_board",
+              "restore_board",
+              "delete_board"
+            ],
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "confirmation": {
+            "type": "string",
+            "title": "Confirmation",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "expected_version"
+        ],
+        "title": "BoardLifecycle"
+      },
+      "BoardMember": {
+        "properties": {
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "board_id",
+          "user_id"
+        ],
+        "title": "BoardMember"
+      },
+      "BoardPatch": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "visibility": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "workspace",
+                  "private"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visibility"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "BoardPatch"
+      },
+      "Card": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "list_id": {
+            "type": "string",
+            "title": "List Id"
+          },
+          "number": {
+            "type": "integer",
+            "title": "Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "assignee_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assignee Id"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "TODO",
+              "IN_PROGRESS",
+              "DONE"
+            ],
+            "title": "Status"
+          },
+          "label_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Label Ids"
+          },
+          "checklist": {
+            "items": {
+              "$ref": "#/components/schemas/Item"
+            },
+            "type": "array",
+            "title": "Checklist"
+          },
+          "inactive": {
+            "type": "boolean",
+            "title": "Inactive"
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived"
+          },
+          "deleted": {
+            "type": "boolean",
+            "title": "Deleted"
+          },
+          "overdue": {
+            "type": "boolean",
+            "title": "Overdue"
+          },
+          "due_soon": {
+            "type": "boolean",
+            "title": "Due Soon"
+          },
+          "group": {
+            "type": "string",
+            "title": "Group"
+          },
+          "created_by": {
+            "type": "string",
+            "title": "Created By"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "workspace_id",
+          "board_id",
+          "list_id",
+          "number",
+          "title",
+          "description",
+          "assignee_id",
+          "due_date",
+          "position",
+          "version",
+          "status",
+          "label_ids",
+          "checklist",
+          "inactive",
+          "archived",
+          "deleted",
+          "overdue",
+          "due_soon",
+          "group",
+          "created_by",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Card"
+      },
+      "CardLabel": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "add_label",
+              "remove_label"
+            ],
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "label_id": {
+            "type": "string",
+            "title": "Label Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version",
+          "label_id"
+        ],
+        "title": "CardLabel"
+      },
+      "CardLifecycle": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "archive_card",
+              "restore_card",
+              "delete_card"
+            ],
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version"
+        ],
+        "title": "CardLifecycle"
+      },
+      "CardPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "offset",
+          "limit"
+        ],
+        "title": "CardPage"
+      },
+      "CardPatch": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "assignee_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assignee Id"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "label_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "maxItems": 30
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CardPatch"
+      },
+      "ChecklistItem": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "completed": {
+            "type": "boolean",
+            "title": "Completed",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "ChecklistItem"
+      },
+      "Counts": {
+        "properties": {
+          "boards": {
+            "type": "integer",
+            "title": "Boards"
+          },
+          "tasks": {
+            "type": "integer",
+            "title": "Tasks"
+          },
+          "completed": {
+            "type": "integer",
+            "title": "Completed"
+          },
+          "in_progress": {
+            "type": "integer",
+            "title": "In Progress"
+          },
+          "overdue": {
+            "type": "integer",
+            "title": "Overdue"
+          },
+          "assigned": {
+            "type": "integer",
+            "title": "Assigned"
+          }
+        },
+        "type": "object",
+        "required": [
+          "boards",
+          "tasks",
+          "completed",
+          "in_progress",
+          "overdue",
+          "assigned"
+        ],
+        "title": "Counts"
+      },
+      "CreateBoard": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "create_board",
+            "title": "Action"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "title": "Description",
+            "default": ""
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "workspace",
+              "private"
+            ],
+            "title": "Visibility",
+            "default": "workspace"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color",
+            "default": "indigo"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "workspace_id",
+          "title"
+        ],
+        "title": "CreateBoard"
+      },
+      "CreateCard": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "create_card",
+            "title": "Action"
+          },
+          "list_id": {
+            "type": "string",
+            "title": "List Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 20000,
+            "title": "Description",
+            "default": ""
+          },
+          "assignee_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assignee Id"
+          },
+          "due_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Due Date"
+          },
+          "label_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 30,
+            "title": "Label Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "list_id",
+          "title"
+        ],
+        "title": "CreateCard"
+      },
+      "CreateList": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "create_list",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "TODO",
+              "IN_PROGRESS",
+              "DONE"
+            ],
+            "title": "Category",
+            "default": "TODO"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "title"
+        ],
+        "title": "CreateList"
+      },
+      "CreateWorkspace": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "create_workspace",
+            "title": "Action"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "default": "UTC"
+          },
+          "demo": {
+            "type": "boolean",
+            "title": "Demo",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "name"
+        ],
+        "title": "CreateWorkspace"
+      },
+      "DeleteLabel": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "delete_label",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "label_id": {
+            "type": "string",
+            "title": "Label Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "label_id"
+        ],
+        "title": "DeleteLabel"
+      },
+      "Dependency": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "add_dependency",
+              "remove_dependency"
+            ],
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "prerequisite_id": {
+            "type": "string",
+            "title": "Prerequisite Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version",
+          "prerequisite_id"
+        ],
+        "title": "Dependency"
+      },
+      "DependencyRecord": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "prerequisite_id": {
+            "type": "string",
+            "title": "Prerequisite Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "board_id",
+          "card_id",
+          "prerequisite_id"
+        ],
+        "title": "DependencyRecord"
+      },
+      "Favorite": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "favorite",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "value": {
+            "type": "boolean",
+            "title": "Value"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "value"
+        ],
+        "title": "Favorite"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Identity": {
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "system",
+              "light",
+              "dark"
+            ],
+            "title": "Theme"
+          },
+          "test_fixture": {
+            "type": "boolean",
+            "title": "Test Fixture",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "user",
+          "theme"
+        ],
+        "title": "Identity"
+      },
+      "Invitation": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "expires_at": {
+            "type": "string",
+            "title": "Expires At"
+          },
+          "applicant_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applicant Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "role",
+          "status",
+          "expires_at",
+          "applicant_id"
+        ],
+        "title": "Invitation"
+      },
+      "InviteMember": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "invite_member",
+            "title": "Action"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 254,
+            "minLength": 3,
+            "title": "Email"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "MEMBER",
+              "VIEWER"
+            ],
+            "title": "Role",
+            "default": "MEMBER"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "workspace_id",
+          "email"
+        ],
+        "title": "InviteMember"
+      },
+      "Item": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "completed": {
+            "type": "boolean",
+            "title": "Completed"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "completed",
+          "position"
+        ],
+        "title": "Item"
+      },
+      "Label": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "board_id",
+          "name",
+          "color",
+          "description"
+        ],
+        "title": "Label"
+      },
+      "Lane": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "TODO",
+              "IN_PROGRESS",
+              "DONE"
+            ],
+            "title": "Category"
+          },
+          "alias": {
+            "type": "string",
+            "title": "Alias"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "archived": {
+            "type": "boolean",
+            "title": "Archived"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "board_id",
+          "title",
+          "category",
+          "alias",
+          "position",
+          "version",
+          "archived"
+        ],
+        "title": "Lane"
+      },
+      "ListLifecycle": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "archive_list",
+              "restore_list"
+            ],
+            "title": "Action"
+          },
+          "list_id": {
+            "type": "string",
+            "title": "List Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "list_id",
+          "expected_version"
+        ],
+        "title": "ListLifecycle"
+      },
+      "ManageMember": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "change_role",
+              "remove_member",
+              "transfer_owner"
+            ],
+            "title": "Action"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "MEMBER",
+              "VIEWER"
+            ],
+            "title": "Role",
+            "default": "MEMBER"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "workspace_id",
+          "user_id"
+        ],
+        "title": "ManageMember"
+      },
+      "MoveCard": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "move_card",
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "list_id": {
+            "type": "string",
+            "title": "List Id"
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Position",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version",
+          "list_id"
+        ],
+        "title": "MoveCard"
+      },
+      "Preference": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "preference",
+            "title": "Action"
+          },
+          "theme": {
+            "type": "string",
+            "enum": [
+              "light",
+              "dark",
+              "system"
+            ],
+            "title": "Theme"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "theme"
+        ],
+        "title": "Preference"
+      },
+      "ReorderLists": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "reorder_lists",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "list_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "List Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "expected_version",
+          "list_ids"
+        ],
+        "title": "ReorderLists"
+      },
+      "ReviewInvite": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "approve_invite",
+              "revoke_invite"
+            ],
+            "title": "Action"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "invitation_id": {
+            "type": "string",
+            "title": "Invitation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "workspace_id",
+          "invitation_id"
+        ],
+        "title": "ReviewInvite"
+      },
+      "SaveChecklist": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "save_checklist",
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ChecklistItem"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Items"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "append",
+              "replace"
+            ],
+            "title": "Mode",
+            "default": "append"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version",
+          "items"
+        ],
+        "title": "SaveChecklist"
+      },
+      "SaveLabel": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "save_label",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "label_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Description",
+            "default": ""
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "name",
+          "color"
+        ],
+        "title": "SaveLabel"
+      },
+      "SearchRequest": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Query"
+          }
+        },
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "query"
+        ],
+        "title": "SearchRequest"
+      },
+      "Snapshot": {
+        "properties": {
+          "workspace": {
+            "$ref": "#/components/schemas/Workspace"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "MEMBER",
+              "VIEWER"
+            ],
+            "title": "Role"
+          },
+          "boards": {
+            "items": {
+              "$ref": "#/components/schemas/Board"
+            },
+            "type": "array",
+            "title": "Boards"
+          },
+          "lists": {
+            "items": {
+              "$ref": "#/components/schemas/Lane"
+            },
+            "type": "array",
+            "title": "Lists"
+          },
+          "cards": {
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            },
+            "type": "array",
+            "title": "Cards"
+          },
+          "labels": {
+            "items": {
+              "$ref": "#/components/schemas/Label"
+            },
+            "type": "array",
+            "title": "Labels"
+          },
+          "dependencies": {
+            "items": {
+              "$ref": "#/components/schemas/DependencyRecord"
+            },
+            "type": "array",
+            "title": "Dependencies"
+          },
+          "members": {
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "type": "array",
+            "title": "Members"
+          },
+          "invitations": {
+            "items": {
+              "$ref": "#/components/schemas/Invitation"
+            },
+            "type": "array",
+            "title": "Invitations"
+          },
+          "board_members": {
+            "items": {
+              "$ref": "#/components/schemas/BoardMember"
+            },
+            "type": "array",
+            "title": "Board Members"
+          },
+          "favorites": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Favorites"
+          },
+          "activity": {
+            "items": {
+              "$ref": "#/components/schemas/Activity"
+            },
+            "type": "array",
+            "title": "Activity"
+          },
+          "server_today": {
+            "type": "string",
+            "title": "Server Today"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/Counts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "workspace",
+          "role",
+          "boards",
+          "lists",
+          "cards",
+          "labels",
+          "dependencies",
+          "members",
+          "invitations",
+          "board_members",
+          "favorites",
+          "activity",
+          "server_today",
+          "counts"
+        ],
+        "title": "Snapshot"
+      },
+      "UpdateBoard": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "update_board",
+            "title": "Action"
+          },
+          "board_id": {
+            "type": "string",
+            "title": "Board Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "changes": {
+            "$ref": "#/components/schemas/BoardPatch"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "board_id",
+          "expected_version",
+          "changes"
+        ],
+        "title": "UpdateBoard"
+      },
+      "UpdateCard": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "update_card",
+            "title": "Action"
+          },
+          "card_id": {
+            "type": "string",
+            "title": "Card Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "changes": {
+            "$ref": "#/components/schemas/CardPatch"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "card_id",
+          "expected_version",
+          "changes"
+        ],
+        "title": "UpdateCard"
+      },
+      "UpdateList": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "update_list",
+            "title": "Action"
+          },
+          "list_id": {
+            "type": "string",
+            "title": "List Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "TODO",
+              "IN_PROGRESS",
+              "DONE"
+            ],
+            "title": "Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "list_id",
+          "expected_version",
+          "title",
+          "category"
+        ],
+        "title": "UpdateList"
+      },
+      "UpdateWorkspace": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Operation Id"
+          },
+          "action": {
+            "type": "string",
+            "const": "update_workspace",
+            "title": "Action"
+          },
+          "workspace_id": {
+            "type": "string",
+            "title": "Workspace Id"
+          },
+          "expected_version": {
+            "type": "integer",
+            "title": "Expected Version"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action",
+          "workspace_id",
+          "expected_version",
+          "name",
+          "timezone"
+        ],
+        "title": "UpdateWorkspace"
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "pool": {
+            "type": "string",
+            "title": "Pool"
+          },
+          "email": {
+            "type": "string",
+            "title": "Email"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "OWNER",
+                  "MEMBER",
+                  "VIEWER"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "subject",
+          "pool",
+          "email",
+          "name"
+        ],
+        "title": "User"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Workspace": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "owner_id": {
+            "type": "string",
+            "title": "Owner Id"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "is_demo": {
+            "type": "boolean",
+            "title": "Is Demo"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "OWNER",
+                  "MEMBER",
+                  "VIEWER"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Role"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "owner_id",
+          "timezone",
+          "version",
+          "is_demo"
+        ],
+        "title": "Workspace"
+      }
+    }
+  }
+}

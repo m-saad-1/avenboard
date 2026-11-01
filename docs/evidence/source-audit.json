@@ -1,0 +1,7 @@
+{
+  "checked_text_files": 96,
+  "credential_pattern_findings": [],
+  "broken_local_document_links": [],
+  "brief_sha256": "fed47ee089158d889ed87d1517d028b9ca575a9de54c9bbbce2e179daf9d83d6",
+  "note": "Scoped source-pattern and local-link check; not a comprehensive secret/security audit."
+}

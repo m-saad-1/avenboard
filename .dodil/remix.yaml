@@ -1,13 +1,15 @@
 # What a remix creates in the organization it goes into. Reference: `dodil guide remix`.
 version: 1
-description: Boards starter for the Dodil Boards Challenge. FastAPI + DataK3 + appid + Models + MCP.
-topics: [boards, starter, fastapi]
+description: Avenboard. A team workspace with authenticated web and MCP access.
+topics: [dodil-challenge, dodil-challenge-boards]
 provision:
   buckets:
     - name: "${{ dodil.repo }}-data"      # keep the repo name <= 18 characters (25 max here)
+      on_conflict: fail
       schema: schema.sql
   user_pools:
     - name: "${{ dodil.repo }}-users"
+      on_conflict: fail
       roles: [member]
   service_accounts:
     - name: "${{ dodil.repo }}-app"

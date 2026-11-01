@@ -16,9 +16,13 @@ apps:
     env:
       BUCKET: "${{ dodil.repo }}-data"
       PG_HOST: pg.uk-lon-1.dodil.io
+      PG_PORT: "5432"
       DODIL_USER_POOL: "${{ dodil.org }}/${{ dodil.repo }}-users"
       MODELS_BASE: https://api.dodil.io/v1
       CHAT_MODEL: kimi-k2.6
+      EMBEDDING_MODEL: jina-embeddings-v4
+      # Enable only after the 512-dimensional live contract test succeeds.
+      SEMANTIC_SEARCH_ENABLED: "false"
       DODIL_SERVICE_ACCOUNT_ID: "${{ secrets.DODIL_SERVICE_ACCOUNT_ID }}"
       DODIL_SERVICE_ACCOUNT_SECRET: "${{ secrets.DODIL_SERVICE_ACCOUNT_SECRET }}"
 when:

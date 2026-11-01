@@ -1,104 +1,134 @@
-"""The web door: JSON routes plus one small page. Every route calls a use case and nothing else."""
-from fastapi import APIRouter, HTTPException, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
-from pydantic import BaseModel
+"""Typed HTTP commands and queries; application services own all business rules."""
 
-from boards.application.use_cases import Boards, NotFound
+from fastapi import APIRouter, Request, HTTPException, Query
+from pydantic import BaseModel, Field
+from boards.domain.commands import Command
 from boards.doors.identity import person_from
-from boards.domain.model import Forbidden, Invalid, Person
+from boards.doors import responses as dto
 
 
-def build_router(boards: Boards) -> APIRouter:
-    r = APIRouter()
-
-    def me(request: Request) -> Person:
-        p = person_from(request.headers)
-        if p is None:
-            raise HTTPException(401, "sign in first: /.dodil/auth/login")
-        return p
-
-    def run(fn, *args):
-        try:
-            return fn(*args)
-        except NotFound as e:
-            raise HTTPException(404, str(e))
-        except Forbidden as e:
-            raise HTTPException(403, str(e))
-        except Invalid as e:
-            raise HTTPException(422, str(e))
-
-    class Title(BaseModel):
-        title: str
-
-    class CardIn(BaseModel):
-        title: str
-        list_name: str = "To do"
-
-    class Move(BaseModel):
-        list_name: str
-
-    class Member(BaseModel):
-        email: str
-        role: str = "member"
-
-    @r.get("/api/boards")
-    def my_boards(request: Request):
-        return run(boards.my_boards, me(request))
-
-    @r.post("/api/boards", status_code=201)
-    def create_board(body: Title, request: Request):
-        return run(boards.create_board, me(request), body.title)
-
-    @r.get("/api/boards/{board_id}")
-    def show_board(board_id: str, request: Request):
-        return run(boards.show_board, me(request), board_id)
-
-    @r.post("/api/boards/{board_id}/members", status_code=201)
-    def add_member(board_id: str, body: Member, request: Request):
-        return run(boards.add_member, me(request), board_id, body.email, body.role)
-
-    @r.post("/api/boards/{board_id}/cards", status_code=201)
-    def add_card(board_id: str, body: CardIn, request: Request):
-        return run(boards.add_card, me(request), board_id, body.title, body.list_name)
-
-    @r.post("/api/cards/{card_id}/move")
-    def move_card(card_id: str, body: Move, request: Request):
-        return run(boards.move_card, me(request), card_id, body.list_name)
-
-    @r.post("/api/cards/{card_id}/checklist")
-    def suggest_checklist(card_id: str, request: Request):
-        return run(boards.suggest_checklist, me(request), card_id)
-
-    @r.get("/", response_class=HTMLResponse)
-    def page(request: Request):
-        if person_from(request.headers) is None:
-            return RedirectResponse("/.dodil/auth/login?return_to=/", status_code=303)
-        return PAGE
-
-    return r
+class SearchRequest(BaseModel):
+    workspace_id: str
+    query: str = Field(min_length=1, max_length=1000)
 
 
-# Deliberately tiny: it proves sign-in and the routes work. Replace it with your real board UI.
-PAGE = """<!doctype html><meta charset=utf-8><title>Boards</title>
-<style>body{font:15px system-ui;margin:2rem;max-width:56rem}.cols{display:flex;gap:1rem}
-.col{flex:1;background:#f3f4f6;border-radius:8px;padding:.6rem;min-height:6rem}
-.card{background:#fff;border-radius:6px;padding:.4rem .6rem;margin:.3rem 0}</style>
-<h1>Boards starter</h1><p>Signed in through Dodil appid. <a href="/.dodil/auth/logout">Sign out</a></p>
-<form id=nb><input id=t placeholder="New board title"> <button>Create board</button></form>
-<ul id=list></ul><div id=board></div>
-<script>
-const j=(u,o)=>fetch(u,{headers:{'content-type':'application/json'},...o}).then(r=>r.json());
-async function load(){const b=await j('/api/boards');list.innerHTML=b.map(x=>
- `<li><a href="#" onclick="show('${x.id}');return false">${x.title}</a> (${x.role})</li>`).join('')}
-async function show(id){const b=await j('/api/boards/'+id);board.innerHTML=`<h2>${b.title}</h2>
- <form onsubmit="add(event,'${id}')"><input name=c placeholder="New card"> <button>Add</button></form>
- <div class=cols>${['To do','Doing','Done'].map(l=>`<div class=col><b>${l}</b>${b.cards
- .filter(c=>c.list_name==l).map(c=>`<div class=card>${c.title}<br><small>${['To do','Doing','Done']
- .filter(x=>x!=l).map(x=>`<a href="#" onclick="mv('${c.id}','${x}','${id}');return false">→ ${x}</a>`)
- .join(' ')}</small></div>`).join('')}</div>`).join('')}</div>`}
-async function add(e,id){e.preventDefault();await j(`/api/boards/${id}/cards`,{method:'POST',
- body:JSON.stringify({title:e.target.c.value})});show(id)}
-async function mv(c,l,id){await j(`/api/cards/${c}/move`,{method:'POST',body:JSON.stringify({list_name:l})});show(id)}
-nb.onsubmit=async e=>{e.preventDefault();await j('/api/boards',{method:'POST',body:JSON.stringify({title:t.value})});t.value='';load()};
-load();
-</script>"""
+def build_router(boards, identify=person_from):
+    router = APIRouter(prefix="/api")
+
+    def me(request):
+        person = identify(request.headers)
+        if person is None:
+            raise HTTPException(
+                401,
+                detail={
+                    "code": "unauthenticated",
+                    "message": "Sign in through Dodil appid",
+                    "login_url": "/.dodil/auth/login?return_to=/",
+                },
+            )
+        return person
+
+    @router.get("/me", response_model=dto.Identity)
+    def identity(request: Request):
+        return boards.me(me(request))
+
+    @router.get("/workspaces", response_model=list[dto.Workspace])
+    def workspaces(request: Request):
+        return boards.workspaces(me(request))
+
+    @router.post("/commands")
+    def command(body: Command, request: Request):
+        return boards.execute(me(request), body)
+
+    @router.get("/workspaces/{workspace_id}/snapshot", response_model=dto.Snapshot)
+    def snapshot(workspace_id: str, request: Request):
+        return boards.snapshot(me(request), workspace_id)
+
+    @router.get("/boards")
+    def list_boards(request: Request, workspace_id: str | None = None):
+        return boards.list_my_boards(me(request), workspace_id)
+
+    @router.get("/workspaces/{workspace_id}/activity", response_model=dto.ActivityPage)
+    def workspace_activity(
+        workspace_id: str,
+        request: Request,
+        board_id: str | None = None,
+        offset: int = Query(0, ge=0),
+        limit: int = Query(50, ge=1, le=100),
+    ):
+        return boards.workspace_activity(
+            me(request), workspace_id, board_id, offset, limit
+        )
+
+    @router.get("/boards/{board_id}")
+    def board(board_id: str, request: Request):
+        return boards.show_board(me(request), board_id)
+
+    @router.get("/cards", response_model=dto.CardPage)
+    def cards(
+        request: Request,
+        workspace_id: str,
+        query: str = "",
+        assignee_id: str | None = None,
+        label_id: str | None = None,
+        list_id: str | None = None,
+        due_from: str | None = None,
+        due_to: str | None = None,
+        status: str | None = None,
+        overdue: bool = False,
+        offset: int = Query(0, ge=0),
+        limit: int = Query(50, ge=1, le=100),
+    ):
+        return boards.search_cards(
+            me(request),
+            workspace_id,
+            query,
+            assignee_id,
+            label_id,
+            list_id,
+            due_from,
+            due_to,
+            status,
+            overdue,
+            offset,
+            limit,
+        )
+
+    @router.get("/my-tasks")
+    def tasks(request: Request, workspace_id: str | None = None):
+        return boards.list_my_cards(me(request), workspace_id)
+
+    @router.get("/overdue")
+    def overdue(request: Request, workspace_id: str | None = None):
+        return boards.list_overdue(me(request), workspace_id)
+
+    @router.get("/cards/{card_id}/activity", response_model=dto.ActivityPage)
+    def activity(
+        card_id: str,
+        request: Request,
+        offset: int = Query(0, ge=0),
+        limit: int = Query(50, ge=1, le=100),
+    ):
+        return boards.activity(me(request), card_id, offset, limit)
+
+    @router.get("/boards/{board_id}/blockers")
+    def blockers(board_id: str, request: Request, card_id: str | None = None):
+        return boards.list_blockers(me(request), board_id, card_id)
+
+    @router.post("/cards/{card_id}/generate-checklist")
+    def checklist(card_id: str, request: Request):
+        return boards.generate_checklist(me(request), card_id)
+
+    @router.post("/boards/{board_id}/summary")
+    def summary(board_id: str, request: Request):
+        return boards.summarize_board(me(request), board_id)
+
+    @router.post("/boards/{board_id}/recommendations")
+    def recommendations(board_id: str, request: Request):
+        return boards.summarize_board(me(request), board_id, recommendations=True)
+
+    @router.post("/semantic-search")
+    def semantic(body: SearchRequest, request: Request):
+        return boards.semantic_search(me(request), body.workspace_id, body.query)
+
+    return router

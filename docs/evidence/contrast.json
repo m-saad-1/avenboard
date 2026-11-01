@@ -1,0 +1,234 @@
+{
+  "note": "Static foreground/background token pairs; not a complete rendered accessibility audit.",
+  "results": [
+    {
+      "theme": "light",
+      "ink": "text",
+      "background": "surface",
+      "ratio": 14.79
+    },
+    {
+      "theme": "light",
+      "ink": "text",
+      "background": "bg",
+      "ratio": 14.27
+    },
+    {
+      "theme": "light",
+      "ink": "text",
+      "background": "column",
+      "ratio": 13.56
+    },
+    {
+      "theme": "light",
+      "ink": "text",
+      "background": "hover",
+      "ratio": 13.45
+    },
+    {
+      "theme": "light",
+      "ink": "muted",
+      "background": "surface",
+      "ratio": 5.53
+    },
+    {
+      "theme": "light",
+      "ink": "muted",
+      "background": "bg",
+      "ratio": 5.34
+    },
+    {
+      "theme": "light",
+      "ink": "muted",
+      "background": "column",
+      "ratio": 5.07
+    },
+    {
+      "theme": "light",
+      "ink": "muted",
+      "background": "hover",
+      "ratio": 5.03
+    },
+    {
+      "theme": "light",
+      "ink": "faint",
+      "background": "surface",
+      "ratio": 5.16
+    },
+    {
+      "theme": "light",
+      "ink": "faint",
+      "background": "bg",
+      "ratio": 4.98
+    },
+    {
+      "theme": "light",
+      "ink": "faint",
+      "background": "column",
+      "ratio": 4.74
+    },
+    {
+      "theme": "light",
+      "ink": "faint",
+      "background": "hover",
+      "ratio": 4.7
+    },
+    {
+      "theme": "light",
+      "ink": "accent",
+      "background": "accent-soft",
+      "ratio": 4.64
+    },
+    {
+      "theme": "light",
+      "ink": "green",
+      "background": "green-soft",
+      "ratio": 5.02
+    },
+    {
+      "theme": "light",
+      "ink": "blue",
+      "background": "blue-soft",
+      "ratio": 4.88
+    },
+    {
+      "theme": "light",
+      "ink": "amber",
+      "background": "amber-soft",
+      "ratio": 5.13
+    },
+    {
+      "theme": "light",
+      "ink": "danger",
+      "background": "danger-soft",
+      "ratio": 5.39
+    },
+    {
+      "theme": "light",
+      "ink": "purple",
+      "background": "purple-soft",
+      "ratio": 5.21
+    },
+    {
+      "theme": "light",
+      "ink": "avatar-ink",
+      "background": "avatar",
+      "ratio": 5.04
+    },
+    {
+      "theme": "dark",
+      "ink": "text",
+      "background": "surface",
+      "ratio": 12.79
+    },
+    {
+      "theme": "dark",
+      "ink": "text",
+      "background": "bg",
+      "ratio": 13.98
+    },
+    {
+      "theme": "dark",
+      "ink": "text",
+      "background": "column",
+      "ratio": 13.23
+    },
+    {
+      "theme": "dark",
+      "ink": "text",
+      "background": "hover",
+      "ratio": 11.23
+    },
+    {
+      "theme": "dark",
+      "ink": "muted",
+      "background": "surface",
+      "ratio": 6.42
+    },
+    {
+      "theme": "dark",
+      "ink": "muted",
+      "background": "bg",
+      "ratio": 7.02
+    },
+    {
+      "theme": "dark",
+      "ink": "muted",
+      "background": "column",
+      "ratio": 6.64
+    },
+    {
+      "theme": "dark",
+      "ink": "muted",
+      "background": "hover",
+      "ratio": 5.64
+    },
+    {
+      "theme": "dark",
+      "ink": "faint",
+      "background": "surface",
+      "ratio": 5.88
+    },
+    {
+      "theme": "dark",
+      "ink": "faint",
+      "background": "bg",
+      "ratio": 6.43
+    },
+    {
+      "theme": "dark",
+      "ink": "faint",
+      "background": "column",
+      "ratio": 6.08
+    },
+    {
+      "theme": "dark",
+      "ink": "faint",
+      "background": "hover",
+      "ratio": 5.16
+    },
+    {
+      "theme": "dark",
+      "ink": "accent",
+      "background": "accent-soft",
+      "ratio": 5.47
+    },
+    {
+      "theme": "dark",
+      "ink": "green",
+      "background": "green-soft",
+      "ratio": 5.77
+    },
+    {
+      "theme": "dark",
+      "ink": "blue",
+      "background": "blue-soft",
+      "ratio": 5.83
+    },
+    {
+      "theme": "dark",
+      "ink": "amber",
+      "background": "amber-soft",
+      "ratio": 6.25
+    },
+    {
+      "theme": "dark",
+      "ink": "danger",
+      "background": "danger-soft",
+      "ratio": 5.68
+    },
+    {
+      "theme": "dark",
+      "ink": "purple",
+      "background": "purple-soft",
+      "ratio": 5.38
+    },
+    {
+      "theme": "dark",
+      "ink": "avatar-ink",
+      "background": "avatar",
+      "ratio": 6.77
+    }
+  ],
+  "failures": []
+}
